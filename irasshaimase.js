@@ -117,7 +117,7 @@ function slugify(text) {
         /5
       </h3>
 
-      <a class="endereco text-muted mb-0" href="#" target="_blank"></a>
+      <a class="endereco mb-0" href="#" target="_blank"></a>
     </div>
 
   </main>
