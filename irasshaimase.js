@@ -1,80 +1,114 @@
 #!/usr/bin/env node
-const readline = require('readline');
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const readline = require("readline");
 
-// Interface readline
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-console.log("🍜 IRASSHAIMASE! GERADOR DE RESTAURANTES 🍥\n");
+function perguntar(pergunta) {
+  return new Promise(resolve => rl.question(pergunta, resolve));
+}
 
-rl.question("Nome do restaurante: ", function (name) {
-
-  if (!name.trim()) {
-    console.log("Nenhum nome digitado. Encerrando...");
-    return rl.close();
-  }
-
-  const slug = name
+function slugify(text) {
+  return text
     .toLowerCase()
-    .normalize("NFD").replace(/[̀-\u036f]/g, "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/(^-|-$)/g, "");
+}
 
-  // 👉 Pasta onde os HTMLs serão salvos
-  const restaurantsDir = path.join(__dirname, "restaurants");
+(async () => {
+  try {
+    console.log("🍜 IRASSHAIMASE! GERADOR DE RESTAURANTES 🍥\n");
 
-  // 👉 Cria a pasta /restaurants se ainda não existir
-  if (!fs.existsSync(restaurantsDir)) {
-    fs.mkdirSync(restaurantsDir);
-    console.log("📁 Pasta 'restaurants' criada!");
-  }
+    const name = (await perguntar("Nome do restaurante: ")).trim();
+    if (!name) {
+      console.log("❌ Nome inválido. Encerrando.");
+      rl.close();
+      return;
+    }
 
-  const filename = `${slug}.html`;
-  const outputPath = path.join(restaurantsDir, filename);
+    const starsNumber = await perguntar("Estrelas (1 a 5): ");
+    const stars = "🍥".repeat(
+      Math.max(1, Math.min(5, Number(starsNumber)))
+    );
 
-  const html = `
-<!DOCTYPE html>
+    const coordinates = (await perguntar("Coordenadas (lat|lng): ")).trim();
+
+    const slug = slugify(name);
+    const url = `${slug}.html`;
+
+    const coverName = (await perguntar(
+      "Nome do arquivo da capa (ex: ramen.png): "
+    )).trim();
+
+    const cover = `images/${coverName}`;
+
+    // -------------------------
+    // CSV
+    // -------------------------
+    const csvPath = "./restaurants.csv";
+
+    if (!fs.existsSync(csvPath)) {
+      fs.writeFileSync(
+        csvPath,
+        "name,stars,coordinates,slug,cover,url\n",
+        "utf8"
+      );
+    }
+
+    const linha = `${name},${stars},${coordinates},${slug},${cover},${url}\n`;
+    fs.appendFileSync(csvPath, linha, "utf8");
+
+    // -------------------------
+    // HTML do restaurante
+    // -------------------------
+    const html = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>${name}</title>
+  <meta charset="UTF-8" />
+  <title>${name} | lamen.recife</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="main.css" />
 </head>
+
 <body>
-  <h1>${name}</h1>
-  <p>Arquivo gerado automaticamente pelo irasshaimase.js 🍥</p>
+  <header class="restaurant-header">
+    <a href="index.html">← Voltar para lista</a>
+  </header>
+
+  <main class="restaurant-page">
+    <img
+      src="${cover}"
+      alt="Capa de ${name}"
+      class="restaurant-cover"
+    />
+
+    <h1>${name}</h1>
+    <p class="stars">${stars}</p>
+    <p class="coordinates">${coordinates}</p>
+  </main>
 </body>
 </html>
 `;
 
-  fs.writeFileSync(outputPath, html, "utf8");
+    fs.writeFileSync(`./${url}`, html, "utf8");
 
-  console.log(`\n🍥 HTML criado em /restaurants: ${filename}`);
+    console.log("\n✔ Restaurante adicionado com sucesso!");
+    console.log(`📄 HTML criado: ${url}`);
+    console.log("📦 CSV atualizado\n");
 
-  // CSV
-  const csvPath = path.join(__dirname, "restaurants.csv");
-
-  if (!fs.existsSync(csvPath)) {
-    fs.writeFileSync(csvPath, "NAME,STARS,COORDINATES,ADDRESS,IMG,URL\n", "utf8");
-    console.log("📄 CSV criado: restaurants.csv");
+    rl.close();
+  } catch (err) {
+    console.error("❌ Erro ao criar restaurante:", err);
+    rl.close();
   }
-
-  const newLine = [
-    name,
-    1,
-    "-8.05|-34.9",
-    "Endereço não definido",
-    "img/default.jpg",
-    `restaurants/${filename}`  // 👉 URL agora aponta pra /restaurants
-  ].join(",");
-
-  fs.appendFileSync(csvPath, newLine + "\n", "utf8");
-
-  console.log("📦 CSV atualizado com o novo restaurante!");
-  console.log(`➡ URL associada: restaurants/${filename}\n`);
-
-  rl.close();
-});
+})();

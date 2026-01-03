@@ -4,156 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>lamen.recife</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="main.css" />
 </head>
-<body class="bg-white text-gray-900">
+
+<body>
 
   <!-- HEADER -->
-  <header class="text-center py-10">
-    <h1 class="text-5xl font-bold tracking-tight">lamen.recife</h1>
-    <p class="mt-3 text-lg">O Primeiro Guia de Lamens do Recife e Região</p>
-
-    <div class="mt-6 relative flex bg-gray-200 rounded-full p-1 select-none w-48 mx-auto">
-    <!-- Indicador -->
-    <div id="toggleIndicator"
-     class="absolute top-1 left-1 w-[calc(50%-4px)] h-[calc(100%-8px)]
-            bg-white rounded-full shadow
-            transition-all duration-300 ease-out
-            toggle-right">
-    </div>
-
-    <!-- Botões -->
-    <button id="btnMapa"
-            class="relative z-10 flex-1 text-center font-semibold py-1">
-      MAPA
-    </button>
-
-    <button id="btnLista"
-            class="relative z-10 flex-1 text-center font-semibold py-1">
-      LISTA
-    </button>
-
-  </div>
+  <header class="site-header">
+    <h1 class="site-title">lamen.recife</h1>
+    <p class="site-subtitle">
+      O Primeiro Guia de Lamens do Recife e Região
+    </p>
   </header>
 
-  <!-- MAPA -->
-  <section id="mapSection" class="w-full h-[600px] hidden">
-    <div id="map" class="w-full h-full"></div>
-  </section>
-
   <!-- LISTA -->
-  <section id="listaSection" class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden"></section>
-
+  <main id="listaSection" class="cards-grid">
+    <!-- cards entram aqui via JS -->
+  </main>
 
   <!-- FOOTER -->
-  <footer class="text-center py-10 text-gray-600">
-    instagram.com/lamen.recife
+  <footer class="site-footer">
+    <div class="footer-content">
+      <img
+        src="images/icon_insta.svg"
+        alt="Instagram"
+        class="footer-icon"
+      />
+      <a
+        href="https://instagram.com/lamen.recife"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer-link"
+      >
+        instagram.com/lamen.recife
+      </a>
+    </div>
   </footer>
 
-<script>
-// --- LOAD CSV ---
-async function loadCSV() {
-  const res = await fetch('restaurants.csv');
-  const text = await res.text();
-  const rows = text.trim().split('\n').slice(1);
-
-  return rows.map(r => {
-    const [NAME, STARS, COORDINATES, ADDRESS, IMG, URL] = r.split(',');
-    const [lat, lng] = COORDINATES.split('|').map(Number);
-    return { NAME, STARS, lat, lng, ADDRESS, IMG, URL };
-  });
-}
-
-// --- RENDER LISTA ---
-function renderLista(data) {
-  const list = document.getElementById('listaSection');
-  list.innerHTML = '';
-
-  data.forEach(item => {
-    list.innerHTML += `
-      <div class="bg-white rounded-xl shadow overflow-hidden">
-        <img src="${item.IMG}" class="w-full h-56 object-cover" />
-        <div class="p-5">
-          <h2 class="text-xl font-semibold mb-2">${item.NAME}</h2>
-          <p class="text-pink-600 text-lg">${'🍥'.repeat(Number(item.STARS))}</p>
-          <a href="${item.URL}" class="mt-4 block bg-rose-300 text-white text-center py-2 rounded-md font-semibold">VER MAIS →</a>
-        </div>
-      </div>`;
-  });
-}
-
-// --- RENDER MAPA ---
-function renderMapa(data) {
-  // Centraliza em 8.0578° S, 34.8829° W com ~30% mais zoom
-  const map = L.map('map').setView([-8.0578, -34.8829], 17);
-
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19
-  }).addTo(map);
-
-  data.forEach(item => {
-    const marker = L.marker([item.lat, item.lng], {
-      icon: L.divIcon({
-        className: '',
-        html: '<div style="font-size:32px">🍜</div>'
-      })
-    }).addTo(map);
-
-    const card = `
-      <div class='w-48'>
-        <img src="${item.IMG}" class="w-full h-24 object-cover rounded" />
-        <h2 class='font-bold mt-2'>${item.NAME}</h2>
-        <p>${item.ADDRESS}</p>
-        <p class='text-pink-600 text-lg'>${'🍥'.repeat(Number(item.STARS))}</p>
-        <a href='${item.URL}' class='block mt-2 bg-rose-300 text-white text-center py-1 rounded font-semibold'>VER MAIS →</a>
-      </div>`;
-
-    marker.bindPopup(card);
-  });
-}
-
-// --- SWITCH BETWEEN MAPA/LISTA ---
-const mapBtn = document.getElementById('btnMapa');
-const listBtn = document.getElementById('btnLista');
-const mapSection = document.getElementById('mapSection');
-const listaSection = document.getElementById('listaSection');
-
-const indicator = document.getElementById("toggleIndicator");
-
-mapBtn.onclick = () => {
-  indicator.classList.remove("toggle-right");
-  mapSection.classList.remove("hidden");
-  listaSection.classList.add("hidden");
-};
-
-listBtn.onclick = () => {
-  indicator.classList.add("toggle-right");
-  listaSection.classList.remove("hidden");
-  mapSection.classList.add("hidden");
-};
-
-// --- INIT ---
-(async () => {
-  const data = await loadCSV();
-  renderLista(data);
-
-  // ➜ Leaflet precisa ver a div antes de iniciar
-  mapSection.classList.remove('hidden');
-
-  renderMapa(data);
-
-  // ➜ volta para a lista como default
-  listaSection.classList.remove('hidden');
-  mapSection.classList.add('hidden');
-
-  // Deixa o indicador no lado da LISTA ao iniciar
-  indicator.classList.add("toggle-right");
-})();
-
-</script>
-
+  <!-- JS -->
+  <script src="cards.js"></script>
 </body>
 </html>

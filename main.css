@@ -1,3 +1,14 @@
+:root {
+  --dark-main: #293534;
+  --light-main: #E2E2D5;
+}
+
+* {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: var(--light-main);
+  color: var(--dark-main);
+}
+
 /* --- CORREÇÕES DE POPUP DO LEAFLET --- */
 
 .leaflet-popup-content-wrapper {
@@ -68,7 +79,6 @@ header p {
 /* --- FOOTER --- */
 
 footer {
-  opacity: 0.7;
   font-size: 0.9rem;
 }
 
@@ -77,8 +87,4 @@ footer {
 
 body {
   scroll-behavior: smooth;
-}
-
-.toggle-right {
-  transform: translateX(100%);
 }
