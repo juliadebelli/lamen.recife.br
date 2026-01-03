@@ -90,6 +90,7 @@ function slugify(text) {
       src="${cover}"
       alt="Capa de ${name}"
       class="restaurant-cover"
+      style="height: 10em; width: auto"
     />
 
     <h1>${name}</h1>
