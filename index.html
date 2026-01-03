@@ -13,41 +13,54 @@
     rel="stylesheet"
   />
 
+  <!-- Boostrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
   <!-- CSS -->
   <link rel="stylesheet" href="main.css" />
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
   <!-- HEADER -->
-  <header class="site-header">
-    <h1 class="site-title">lamen.recife</h1>
-    <p class="site-subtitle">
+  <header class="site-header container text-center py-4">
+    <img src="images/bowl.svg" 
+    class="img-fluid mx-auto d-block"
+    style="max-width: 300px;"
+    alt="Bowl">
+    <h1 class="site-title fw-bold mb-2">lamen.recife</h1>
+    <p class="site-subtitle text-muted mb-0">
       O Primeiro Guia de Lamens do Recife e Região
     </p>
   </header>
 
   <!-- LISTA -->
-  <main id="listaSection" class="cards-grid">
-    <!-- cards entram aqui via JS -->
+  <main id="listaSection" class="container my-4 flex-grow-1">
+    <div class="row g-4 cards-grid">
+      <!-- cards entram aqui via JS -->
+      <!-- cada card idealmente entra como <div class="col-12 col-md-6 col-lg-4"> -->
+    </div>
   </main>
 
   <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-content">
-      <img
-        src="images/icon_insta.svg"
-        alt="Instagram"
-        class="footer-icon"
-      />
-      <a
-        href="https://instagram.com/lamen.recife"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="footer-link"
-      >
-        instagram.com/lamen.recife
-      </a>
+  <footer class="site-footer border-top py-3 mt-auto">
+    <div class="container">
+      <div class="footer-content d-flex align-items-center justify-content-center gap-2">
+        <img
+          src="images/icon_insta.svg"
+          alt="Instagram"
+          class="footer-icon"
+          style="width: 24px; height: 24px;"
+        />
+        <a
+          href="https://instagram.com/lamen.recife"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link text-decoration-none"
+        >
+          instagram.com/lamen.recife
+        </a>
+      </div>
     </div>
   </footer>
 

@@ -37,9 +37,27 @@ function renderCards(restaurantes) {
     card.className = "restaurant-card";
 
     card.innerHTML = `
-      <img src="${r.cover}" alt="${r.name}">
-      <h2>${r.name}</h2>
-      <a href="${r.url}">Ver restaurante</a>
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm" style="background-color: #fefefe;">
+          <img 
+            src="${r.cover}" 
+            class="card-img-top" 
+            alt="${r.name}"
+          >
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">${r.name}</h5>
+            <h5>${r.stars}</h5>
+            <br>
+            <a 
+              href="${r.url}" 
+              target="_blank"
+              class="btn btn-outline-dark mt-auto"
+            >
+              Ver restaurante
+            </a>
+          </div>
+        </div>
+      </div>
     `;
 
     container.appendChild(card);

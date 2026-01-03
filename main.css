@@ -5,41 +5,14 @@
 
 * {
   font-family: 'Noto Sans JP', sans-serif;
-  background-color: var(--light-main);
   color: var(--dark-main);
+  margin: 0;
 }
 
-/* --- CORREÇÕES DE POPUP DO LEAFLET --- */
-
-.leaflet-popup-content-wrapper {
-  border-radius: 14px;
-  padding: 0;
-  overflow: hidden;
+body {
+  background-color: var(--light-main) !important;
 }
 
-.leaflet-popup-content {
-  margin: 0 !important;
-}
-
-.leaflet-popup-close-button {
-  font-size: 20px;
-  margin: 4px 6px;
-  color: #333;
-}
-
-
-/* --- TRANSIÇÕES DE BOTÕES MAPA/LISTA --- */
-
-#btnMapa,
-#btnLista {
-  transition: 0.25s ease;
-}
-
-#btnMapa.active,
-#btnLista.active {
-  background-color: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-}
 
 
 /* --- CARDS NA LISTA --- */
@@ -80,6 +53,7 @@ header p {
 
 footer {
   font-size: 0.9rem;
+  background-color: var(--light-main) !important;
 }
 
 

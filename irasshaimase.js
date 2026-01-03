@@ -76,27 +76,87 @@ function slugify(text) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:wght@100..900&display=swap" rel="stylesheet">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="main.css" />
 </head>
 
 <body>
-  <header class="restaurant-header">
-    <a href="index.html">← Voltar para lista</a>
+  <!-- HEADER -->
+  <header class="container py-3">
+    <a 
+      href="index.html" 
+      class="text-decoration-none text-muted d-inline-flex align-items-center gap-2"
+    >
+      ← Voltar para lista
+    </a>
   </header>
 
-  <main class="restaurant-page">
-    <img
-      src="${cover}"
-      alt="Capa de ${name}"
-      class="restaurant-cover"
-      style="height: 10em; width: auto"
-    />
+  <!-- MAIN -->
+  <main class="container restaurant-page">
 
-    <h1>${name}</h1>
-    <p class="stars">${stars}</p>
-    <p class="coordinates">${coordinates}</p>
+    <!-- Capa -->
+    <div class="mb-4">
+      <a href="#" target="_blank">
+      <img
+        src="${cover}"
+        alt="Capa de ${name}"
+        class="img-fluid w-100 shadow-sm"
+        style="height: 40vh; object-fit: cover; border-radius: 2rem;"
+      />
+      </a>
+    </div>
+
+    <!-- Título + estrelas -->
+    <div class="mb-3">
+      <h1 class="fw-bold mb-1">${name}</h1>
+
+      <h3 class="stars mb-1">
+        <span class="rounded py-1 d-inline-block text-warning">
+          ${stars}
+        </span>
+        /5
+      </h3>
+
+      <a class="endereco text-muted mb-0" href="#" target="_blank"></a>
+    </div>
+
   </main>
+
+  <!-- REVIEW -->
+  <article class="container mt-4 mb-5">
+    <div class="bg-white p-4 rounded shadow-sm">
+      <p class="review-date mb-0 p-4" style="opacity: 60%;"></p>
+      <p class="review-text mb-0 p-4"></p>
+      <img 
+        src="images/icon_sombrinha.svg" 
+        class="d-block mx-auto"
+        style="width: 16px; height: 16px;"
+        alt="Fim do Texto"
+      >
+    </div>
+  </article>
+
+  <!-- FOOTER -->
+  <footer class="site-footer border-top py-3 mt-auto">
+    <div class="container">
+      <div class="footer-content d-flex align-items-center justify-content-center gap-2">
+        <img
+          src="images/icon_insta.svg"
+          alt="Instagram"
+          class="footer-icon"
+          style="width: 24px; height: 24px;"
+        />
+        <a
+          href="https://instagram.com/lamen.recife"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link text-decoration-none"
+        >
+          instagram.com/lamen.recife
+        </a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
 `;
