@@ -11,32 +11,8 @@
 
 body {
   background-color: var(--light-main) !important;
+  scroll-behavior: smooth;
 }
-
-
-
-/* --- CARDS NA LISTA --- */
-
-.card-lamen {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.card-lamen:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
-
-
-/* --- IMAGENS --- */
-
-.card-lamen img {
-  transition: opacity 0.25s ease;
-}
-
-.card-lamen:hover img {
-  opacity: 0.9;
-}
-
 
 /* --- HEADER --- */
 
@@ -48,6 +24,10 @@ header p {
   opacity: 0.85;
 }
 
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 /* --- FOOTER --- */
 
@@ -56,9 +36,7 @@ footer {
   background-color: var(--light-main) !important;
 }
 
-
-/* --- SCROLL RESET --- */
-
-body {
-  scroll-behavior: smooth;
+.card-img-top {
+  height: 180px;
+  object-fit: cover;
 }

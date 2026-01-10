@@ -31,35 +31,34 @@ function parseCSV(text) {
 
 function renderCards(restaurantes) {
   const container = document.getElementById("listaSection");
+  container.innerHTML = "";
 
   restaurantes.forEach(r => {
-    const card = document.createElement("article");
-    card.className = "restaurant-card";
+    const col = document.createElement("div");
+    col.className = "col-6 col-sm-12 col-md-4 col-lg-3 my-2";
 
-    card.innerHTML = `
-      <div class="col-6 col-md-4 col-lg-3">
-        <div class="card h-100 shadow-sm" style="background-color: #fefefe;">
-          <img 
-            src="${r.cover}" 
-            class="card-img-top" 
-            alt="${r.name}"
+    col.innerHTML = `
+      <div class="card h-100 shadow-sm mx-2" style="background-color: #fefefe;">
+        <img 
+          src="${r.cover}" 
+          class="card-img-top"
+          alt="${r.name}"
+        >
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">${r.name}</h5>
+          <div class="mb-2">${r.stars}</div>
+
+          <a
+            href="${r.url}"
+            target="_blank"
+            class="btn btn-outline-dark mt-auto"
           >
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">${r.name}</h5>
-            <h5>${r.stars}</h5>
-            <br>
-            <a 
-              href="${r.url}" 
-              target="_blank"
-              class="btn btn-outline-dark mt-auto"
-            >
-              Ver restaurante
-            </a>
-          </div>
+            Ver restaurante
+          </a>
         </div>
       </div>
     `;
 
-    container.appendChild(card);
+    container.appendChild(col);
   });
 }
